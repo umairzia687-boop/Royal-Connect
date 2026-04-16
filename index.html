@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Royal Connect - Gold Shine</title>
+    
+    <script src="https://pl28980106.profitablecpmratenetwork.com/20/bd/f4/20bdf4fc49430a4adf6663e28963e137.js"></script>
+
+    <style>
+        :root { 
+            --gold: #FFD700; 
+            --shine: #FFFACD;
+            --bg: #3a221a; /* image_2.png se solid dark brown background */
+            --card: #1a1a1a; 
+            --text: #ffffff; 
+        }
+        
+        * { touch-action: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--bg); color: var(--text); font-family: 'Arial Black', sans-serif;
+            overflow: hidden; position: fixed;
+        }
+        
+        #app { display: flex; flex-direction: column; height: 100vh; position: relative; }
+        
+        /* Fixed Ads Placement */
+        .ad-box { width: 100%; height: 50px; background: #000; position: fixed; z-index: 100; display: flex; justify-content: center; align-items: center; }
+        .ad-top { top: 0; border-bottom: 1.5px solid var(--gold); }
+        .ad-bottom { bottom: 0; height: 60px; border-top: 1.5px solid var(--gold); }
+
+        .screen { position: absolute; inset: 50px 0 60px 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); z-index: 20; }
+        .active { display: flex !important; }
+        
+        /* image_2.png style Minimalist First Interface */
+        .logo-box-main { text-align: center; }
+        .logo-text-main { 
+            font-size: 3.5rem; font-weight: 900; line-height: 1.1; letter-spacing: 1px;
+            background: linear-gradient(180deg, var(--shine) 0%, var(--gold) 60%, #b8860b 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+        .tap-msg { font-size: 14px; color: rgba(255, 215, 0, 0.7); margin-top: 25px; font-weight: bold; opacity: 0; animation: fade 1.5s infinite; }
+        @keyframes fade { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* Mode Screen */
+        .btn-outline { 
+            background: rgba(255, 215, 0, 0.05); border: 1.5px solid var(--gold); color: var(--gold); 
+            padding: 15px 30px; border-radius: 8px; cursor: pointer; margin: 10px; min-width: 220px;
+            font-weight: bold; font-size: 16px;
+        }
+
+        /* Mission UI Fix */
+        .mission-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 20px; overflow-y: auto; max-width: 320px; -webkit-overflow-scrolling: touch; }
+        .m-node { aspect-ratio: 1; background: #111; border: 1px solid #333; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 16px; }
+        .m-unlocked { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); cursor: pointer; background: #1a1a1a; }
+
+        /* Game UI */
+        #preview-bar { display: flex; gap: 8px; margin-bottom: 25px; min-height: 40px; }
+        .slot { width: 32px; height: 40px; border-bottom: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--gold); font-weight: 900; }
+        
+        #game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 15px 0; }
+        .hex-node { 
+            width: 70px; height: 70px; background: #111; border: 1.5px solid var(--gold); 
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: bold; color: var(--gold); transition: 0.1s;
+        }
+        .hex-active { background: var(--gold); color: #000; scale: 1.1; box-shadow: 0 0 20px var(--gold); }
+    </style>
+</head>
+<body onload="init()">
+
+    <div id="app">
+        <div class="ad-box ad-top">
+            <script type="text/javascript">
+                atOptions = { 'key' : 'e554307db5af71bb93a1bdbca30869f3', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/e554307db5af71bb93a1bdbca30869f3/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+
+        <div id="scr-start" class="screen active" onclick="go('scr-mode')">
+            <div class="logo-box-main">
+                <div class="logo-text-main">ROYAL</div>
+                <div class="logo-text-main" style="font-size: 2.2rem;">BLOCKS</div>
+            </div>
+            <div class="tap-msg">TAP ANYWHERE TO START</div>
+        </div>
+
+        <div id="scr-mode" class="screen">
+            <h2 style="color:var(--gold); margin-bottom:30px; letter-spacing:1px;">SELECT CHALLENGE</h2>
+            <button class="btn-outline" onclick="setMode(5)">5 LETTERS</button>
+            <button class="btn-outline" onclick="setMode(6)">6 LETTERS</button>
+            <button class="btn-outline" onclick="setMode(8)">8 LETTERS</button>
+            <button onclick="go('scr-start')" style="background:none; border:none; color:#666; margin-top:20px; font-weight:bold;">MAIN MENU</button>
+        </div>
+
+        <div id="scr-mission" class="screen">
+            <h3 id="mode-title" style="color:var(--gold); margin-bottom:10px;"></h3>
+            <div class="mission-grid" id="m-list"></div>
+            <button class="btn-outline" style="min-width:150px; font-size:12px;" onclick="go('scr-mode')">BACK</button>
+        </div>
+
+        <div id="scr-game" class="screen">
+            <div id="preview-bar"></div>
+            <div id="game-board"></div>
+            <div id="msg" style="height:30px; margin:15px; color:var(--gold); font-size:14px; font-weight:bold;">DRAG TO CONNECT</div>
+            <div style="display:flex; gap:15px;">
+                <button class="btn-outline" style="min-width:100px; padding:8px; border-radius:50px; background:#222;" onclick="startLevel()">RESET</button>
+                <button onclick="getHint()" style="background: linear-gradient(180deg, var(--gold) 0%, #b8860b 100%); border: 2px solid var(--shine); padding: 10px 20px; border-radius: 50px; font-weight: bold; color: #000; font-size: 15px; cursor: pointer; min-width: 120px;">✨ HINT</button>
+            </div>
+        </div>
+
+        <div class="ad-box ad-bottom">
+            <script type="text/javascript">
+                atOptions = { 'key' : 'ba4d673a74e1bec3358fc1f6be3542c3', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+                document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/ba4d673a74e1bec3358fc1f6be3542c3/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+    </div>
+
+<script>
+    let mode = 5, lvl = 1, activeWord = "", selected = [], isDrawing = false;
+    const bank = {
+        5: ["ROYAL", "SMART", "LIGHT", "DREAM", "POWER", "BRAIN", "WORLD", "MUSIC", "SPACE", "GHOST"],
+        6: ["ACTIVE", "BRIGHT", "FUTURE", "PLAYER", "WONDER", "STREET", "PLANET", "SYSTEM", "ACTION", "SILVER"],
+        8: ["PLATINUM", "MOUNTAIN", "STRATEGY", "CREATIVE", "UNIVERSE", "CHAMPION", "KNOWLEDGE", "STRENGTH", "BUSINESS", "COMPUTER"]
+    };
+
+    function go(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function setMode(m) {
+        mode = m;
+        document.getElementById('mode-title').innerText = m + " LETTERS";
+        renderMissions();
+        go('scr-mission');
+    }
+
+    function renderMissions() {
+        const list = document.getElementById('m-list'); list.innerHTML = '';
+        const unlocked = parseInt(localStorage.getItem('ry_un_'+mode)) || 1;
+        for(let i=1; i<=50; i++) {
+            const d = document.createElement('div');
+            d.className = `m-node ${i <= unlocked ? 'm-unlocked' : ''}`;
+            d.innerText = i;
+            if(i <= unlocked) {
+                d.onclick = (e) => {
+                    e.preventDefault();
+                    lvl = i; 
+                    startLevel();
+                };
+            }
+            list.appendChild(d);
+        }
+    }
+
+    function startLevel() {
+        const list = bank[mode];
+        activeWord = list[(lvl-1) % list.length];
+        setupBoard();
+        go('scr-game');
+    }
+
+    function setupBoard() {
+        const preview = document.getElementById('preview-bar');
+        const board = document.getElementById('game-board');
+        preview.innerHTML = ''; board.innerHTML = '';
+        selected = [];
+        document.getElementById('msg').innerText = "DRAG TO CONNECT";
+        
+        for(let i=0; i<activeWord.length; i++) {
+            const s = document.createElement('div'); s.className = 'slot'; s.id = 'slot-'+i;
+            preview.appendChild(s);
+        }
+
+        const chars = activeWord.split('').sort(() => Math.random() - 0.5);
+        chars.forEach((c) => {
+            const n = document.createElement('div');
+            n.className = 'hex-node'; n.innerText = c;
+            n.onpointerdown = (e) => startDrag(e, n);
+            board.appendChild(n);
+        });
+    }
+
+    function startDrag(e, node) {
+        isDrawing = true;
+        node.releasePointerCapture(e.pointerId); 
+        selectNode(node);
+        window.onpointermove = dragMove;
+        window.onpointerup = endDrag;
+    }
+
+    function dragMove(e) {
+        if(!isDrawing) return;
+        const target = document.elementFromPoint(e.clientX, e.clientY);
+        if(target && target.classList.contains('hex-node') && !selected.includes(target)) {
+            selectNode(target);
+        }
+    }
+
+    function selectNode(node) {
+        selected.push(node);
+        node.classList.add('hex-active');
+        updatePreview();
+    }
+
+    function updatePreview() {
+        const str = selected.map(n => n.innerText).join('');
+        for(let i=0; i<activeWord.length; i++) {
+            const s = document.getElementById('slot-'+i);
+            if(s) s.innerText = str[i] || "";
+        }
+    }
+
+    function endDrag() {
+        isDrawing = false;
+        window.onpointermove = null;
+        window.onpointerup = null;
+        checkWord();
+    }
+
+    function checkWord() {
+        const str = selected.map(n => n.innerText).join('');
+        if(str === activeWord) {
+            document.getElementById('msg').innerText = "ROYAL SUCCESS!";
+            let next = parseInt(localStorage.getItem('un_'+mode)) || 1;
+            if(lvl == next) localStorage.setItem('un_'+mode, next + 1);
+            setTimeout(() => { renderMissions(); go('scr-mission'); }, 1000);
+        } else {
+            document.getElementById('msg').innerText = "TRY AGAIN";
+            setTimeout(() => {
+                selected.forEach(n => n.classList.remove('hex-active'));
+                selected = []; updatePreview();
+            }, 400);
+        }
+    }
+
+    function getHint() {
+        window.open("https://www.profitablecpmratenetwork.com/kcyc4amqi?key=24503b450eb58c41a82c4231af9397cd", "_blank");
+        document.getElementById('msg').innerText = "STARTS WITH: " + activeWord[0];
+    }
+    
+    function init() {}
+</script>
+</body>
+</html>
