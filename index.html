@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Royal Connect - Gold Shine</title>
+    <title>Royal Blocks - Gold Shine</title>
     
     <script src="https://pl28980106.profitablecpmratenetwork.com/20/bd/f4/20bdf4fc49430a4adf6663e28963e137.js"></script>
 
@@ -11,7 +11,7 @@
         :root { 
             --gold: #FFD700; 
             --shine: #FFFACD;
-            --bg: #3a221a; /* image_2.png se solid dark brown background */
+            --bg: #3a221a; 
             --card: #1a1a1a; 
             --text: #ffffff; 
         }
@@ -26,7 +26,6 @@
         
         #app { display: flex; flex-direction: column; height: 100vh; position: relative; }
         
-        /* Fixed Ads Placement */
         .ad-box { width: 100%; height: 50px; background: #000; position: fixed; z-index: 100; display: flex; justify-content: center; align-items: center; }
         .ad-top { top: 0; border-bottom: 1.5px solid var(--gold); }
         .ad-bottom { bottom: 0; height: 60px; border-top: 1.5px solid var(--gold); }
@@ -34,30 +33,25 @@
         .screen { position: absolute; inset: 50px 0 60px 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); z-index: 20; }
         .active { display: flex !important; }
         
-        /* image_2.png style Minimalist First Interface */
         .logo-box-main { text-align: center; }
         .logo-text-main { 
             font-size: 3.5rem; font-weight: 900; line-height: 1.1; letter-spacing: 1px;
-            background: linear-gradient(180deg, var(--shine) 0%, var(--gold) 60%, #b8860b 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            color: var(--gold);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
         }
         .tap-msg { font-size: 14px; color: rgba(255, 215, 0, 0.7); margin-top: 25px; font-weight: bold; opacity: 0; animation: fade 1.5s infinite; }
         @keyframes fade { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* Mode Screen */
         .btn-outline { 
             background: rgba(255, 215, 0, 0.05); border: 1.5px solid var(--gold); color: var(--gold); 
             padding: 15px 30px; border-radius: 8px; cursor: pointer; margin: 10px; min-width: 220px;
             font-weight: bold; font-size: 16px;
         }
 
-        /* Mission UI Fix */
         .mission-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 20px; overflow-y: auto; max-width: 320px; -webkit-overflow-scrolling: touch; }
         .m-node { aspect-ratio: 1; background: #111; border: 1px solid #333; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 16px; }
         .m-unlocked { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); cursor: pointer; background: #1a1a1a; }
 
-        /* Game UI */
         #preview-bar { display: flex; gap: 8px; margin-bottom: 25px; min-height: 40px; }
         .slot { width: 32px; height: 40px; border-bottom: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--gold); font-weight: 900; }
         
@@ -143,6 +137,7 @@
 
     function renderMissions() {
         const list = document.getElementById('m-list'); list.innerHTML = '';
+        // FIX: Consistent storage key
         const unlocked = parseInt(localStorage.getItem('ry_un_'+mode)) || 1;
         for(let i=1; i<=50; i++) {
             const d = document.createElement('div');
@@ -228,8 +223,9 @@
         const str = selected.map(n => n.innerText).join('');
         if(str === activeWord) {
             document.getElementById('msg').innerText = "ROYAL SUCCESS!";
-            let next = parseInt(localStorage.getItem('un_'+mode)) || 1;
-            if(lvl == next) localStorage.setItem('un_'+mode, next + 1);
+            // FIX: Saving with correct key to unlock next level
+            let next = parseInt(localStorage.getItem('ry_un_'+mode)) || 1;
+            if(lvl == next) localStorage.setItem('ry_un_'+mode, next + 1);
             setTimeout(() => { renderMissions(); go('scr-mission'); }, 1000);
         } else {
             document.getElementById('msg').innerText = "TRY AGAIN";
