@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Royal Blocks - Final Setup</title>
+    <title>Royal Blocks - Hint Fix</title>
     
     <script src="https://pl28980106.profitablecpmratenetwork.com/20/bd/f4/20bdf4fc49430a4adf6663e28963e137.js"></script>
 
@@ -11,43 +11,17 @@
         :root { --gold: #FFD700; --bg: #3a221a; --text: #ffffff; }
         * { touch-action: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: var(--text); font-family: 'Arial Black', sans-serif; overflow: hidden; position: fixed; }
-        
         #app { display: flex; flex-direction: column; height: 100vh; position: relative; justify-content: space-between; }
-
-        /* AD CONTAINERS */
-        .ad-container { 
-            width: 100%; 
-            background: #000; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 1000; 
-        }
+        .ad-container { width: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 1000; position: relative; }
         .ad-top { height: 50px; border-bottom: 1.5px solid var(--gold); }
         .ad-bottom { height: 60px; border-top: 1.5px solid var(--gold); }
-
-        /* SCREENS */
-        .screen { 
-            position: absolute; 
-            top: 50px; /* Below top ad */
-            bottom: 60px; /* Above bottom ad */
-            left: 0; right: 0; 
-            display: none; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            background: var(--bg); 
-            z-index: 10; 
-        }
+        .screen { position: absolute; top: 50px; bottom: 60px; left: 0; right: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); z-index: 10; }
         .active { display: flex !important; }
-
         .logo-text-main { font-size: 3.5rem; font-weight: 900; color: var(--gold); text-shadow: 2px 2px 4px rgba(0,0,0,0.4); text-align: center; }
         .btn-outline { background: rgba(255, 215, 0, 0.05); border: 1.5px solid var(--gold); color: var(--gold); padding: 15px 30px; border-radius: 8px; cursor: pointer; margin: 10px; min-width: 220px; font-weight: bold; }
         .mission-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 20px; overflow-y: auto; max-width: 320px; }
         .m-node { aspect-ratio: 1; background: #111; border: 1px solid #333; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 16px; }
         .m-unlocked { border-color: var(--gold); color: var(--gold); cursor: pointer; background: #1a1a1a; box-shadow: 0 0 5px var(--gold); }
-
-        #preview-bar { display: flex; gap: 8px; margin-bottom: 25px; min-height: 40px; }
         .slot { width: 32px; height: 40px; border-bottom: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--gold); font-weight: 900; }
         #game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 15px 0; }
         .hex-node { width: 70px; height: 70px; background: #111; border: 1.5px solid var(--gold); clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; color: var(--gold); }
@@ -83,12 +57,12 @@
     </div>
 
     <div id="scr-game" class="screen">
-        <div id="preview-bar"></div>
+        <div id="preview-bar" style="display:flex; gap:8px; margin-bottom:25px; min-height:40px;"></div>
         <div id="game-board"></div>
         <div id="msg" style="height:30px; margin:10px; color:var(--gold);">DRAG TO CONNECT</div>
         <div style="display:flex; gap:10px;">
             <button class="btn-outline" style="min-width:100px; padding:10px;" onpointerdown="startLevel()">RESET</button>
-            <button onpointerdown="getHint()" style="background:var(--gold); border:none; padding:10px 20px; border-radius:50px; font-weight:bold; color:#000;">HINT</button>
+            <button onpointerdown="getHint(event)" style="background:var(--gold); border:none; padding:10px 20px; border-radius:50px; font-weight:bold; color:#000;">HINT</button>
         </div>
         <button style="background:none; border:none; color:#666; margin-top:20px; font-weight:bold;" onpointerdown="go('scr-mission')">QUIT</button>
     </div>
@@ -125,7 +99,7 @@
     function renderMissions() {
         const list = document.getElementById('m-list');
         list.innerHTML = '';
-        const unlocked = parseInt(localStorage.getItem('rb_v4_mode_' + mode)) || 1;
+        const unlocked = parseInt(localStorage.getItem('rb_v5_mode_' + mode)) || 1;
         for(let i=1; i<=50; i++) {
             const d = document.createElement('div');
             d.className = `m-node ${i <= unlocked ? 'm-unlocked' : ''}`;
@@ -188,8 +162,8 @@
         const str = selected.map(n => n.innerText).join('');
         if(str === activeWord) {
             document.getElementById('msg').innerText = "SUCCESS!";
-            let currentUnlocked = parseInt(localStorage.getItem('rb_v4_mode_' + mode)) || 1;
-            if(lvl == currentUnlocked) localStorage.setItem('rb_v4_mode_' + mode, currentUnlocked + 1);
+            let currentUnlocked = parseInt(localStorage.getItem('rb_v5_mode_' + mode)) || 1;
+            if(lvl == currentUnlocked) localStorage.setItem('rb_v5_mode_' + mode, currentUnlocked + 1);
             setTimeout(() => { renderMissions(); go('scr-mission'); }, 800);
         } else {
             document.getElementById('msg').innerText = "TRY AGAIN";
@@ -201,9 +175,20 @@
         }
     }
 
-    function getHint() {
-        window.open("https://www.profitablecpmratenetwork.com/kcyc4amqi?key=24503b450eb58c41a82c4231af9397cd", "_blank");
+    function getHint(e) {
+        // CRITICAL FIX FOR GHOST ADS
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Open link in a way that doesn't trigger global click listeners
+        const win = window.open("https://www.profitablecpmratenetwork.com/kcyc4amqi?key=24503b450eb58c41a82c4231af9397cd", "_blank");
+        if (win) win.focus();
+        
         document.getElementById('msg').innerText = "HINT: " + activeWord[0];
+        
+        // Reset interaction state for game board
+        isDrawing = false;
+        return false;
     }
 </script>
 </body>
